@@ -37,7 +37,7 @@ const AnalysisPage = () => {
       // Use mock data as fallback
       setAnalysis(mockAnalysisResponse);
       setAnswers({
-        0: "This is a sample task description that was analyzed.",
+        "0": "This is a sample task description that was analysed.",
         // Other answers would be included here
       });
     }
@@ -67,7 +67,7 @@ const AnalysisPage = () => {
   if (loading) {
     return (
       <div className="flex justify-center items-center h-64">
-        <div className="animate-spin h-8 w-8 border-4 border-corndel-blue border-t-transparent rounded-full"></div>
+        <div className="animate-spin h-8 w-8 border-4 border-indigo-900 border-t-transparent rounded-full"></div>
       </div>
     );
   }
@@ -119,27 +119,27 @@ const AnalysisPage = () => {
       >
         <button
           onClick={() => navigate(-1)}
-          className="mb-4 flex items-center text-gray-600 hover:text-corndel-blue transition-colors"
+          className="mb-4 flex items-center text-gray-600 hover:text-indigo-900 transition-colors"
         >
           <ArrowLeft className="h-4 w-4 mr-1" />
           Back
         </button>
         
-        <div className="border-b border-corndel-blue/10 pb-6">
+        <div className="border-b border-indigo-900/10 pb-6">
           <div className="flex items-start gap-4">
-            <div className="bg-corndel-blue/10 p-3 rounded-lg">
-              <BrainCircuit size={32} className="text-corndel-blue" />
+            <div className="bg-indigo-100 p-3 rounded-lg">
+              <BrainCircuit size={32} className="text-indigo-900" />
             </div>
             <div>
               <div className="flex flex-wrap items-center gap-2 mb-2">
-                <h1 className="text-3xl font-bold text-corndel-blue">
+                <h1 className="text-3xl font-bold text-indigo-900">
                   Analysis Results
                 </h1>
                 <div className={`text-xs font-medium px-3 py-1 rounded-full ${getClassificationColor(analysis.Classification)}`}>
                   {analysis.Classification}
                 </div>
               </div>
-              <h2 className="text-lg text-corndel-blue/70">
+              <h2 className="text-lg text-indigo-700">
                 Based on your task description, here's our recommended approach
               </h2>
             </div>
@@ -156,10 +156,10 @@ const AnalysisPage = () => {
             transition={{ delay: 0.1 }}
           >
             <div className="flex items-center mb-4">
-              <div className="w-10 h-10 bg-corndel-blue/10 rounded-lg flex items-center justify-center mr-3">
-                <CheckCircle2 className="h-5 w-5 text-corndel-blue" />
+              <div className="w-10 h-10 bg-indigo-100 rounded-lg flex items-center justify-center mr-3">
+                <CheckCircle2 className="h-5 w-5 text-indigo-900" />
               </div>
-              <h3 className="text-xl font-semibold text-corndel-blue">Recommendation Analysis</h3>
+              <h3 className="text-xl font-semibold text-indigo-900">Recommendation Analysis</h3>
             </div>
             
             <div className="mb-6">
@@ -185,16 +185,16 @@ const AnalysisPage = () => {
               transition={{ delay: 0.2 }}
             >
               <div className="flex items-center mb-4">
-                <div className="w-10 h-10 bg-corndel-blue/10 rounded-lg flex items-center justify-center mr-3">
-                  <Wrench className="h-5 w-5 text-corndel-blue" />
+                <div className="w-10 h-10 bg-indigo-100 rounded-lg flex items-center justify-center mr-3">
+                  <Wrench className="h-5 w-5 text-indigo-900" />
                 </div>
-                <h3 className="text-lg font-semibold text-corndel-blue">Recommended Tools</h3>
+                <h3 className="text-lg font-semibold text-indigo-900">Recommended Tools</h3>
               </div>
               
               <ul className="space-y-2">
                 {analysis.Tools && analysis.Tools.map((tool, index) => (
                   <li key={index} className="flex items-start">
-                    <div className="w-5 h-5 bg-corndel-blue/10 rounded-full flex items-center justify-center text-xs mr-2 mt-0.5">
+                    <div className="w-5 h-5 bg-indigo-100 rounded-full flex items-center justify-center text-xs mr-2 mt-0.5">
                       {index + 1}
                     </div>
                     <span className="text-gray-700">{tool}</span>
@@ -213,7 +213,7 @@ const AnalysisPage = () => {
                 <div className="w-10 h-10 bg-yellow-100 rounded-lg flex items-center justify-center mr-3">
                   <AlertTriangle className="h-5 w-5 text-yellow-600" />
                 </div>
-                <h3 className="text-lg font-semibold text-corndel-blue">Considerations</h3>
+                <h3 className="text-lg font-semibold text-indigo-900">Considerations</h3>
               </div>
               
               <ul className="space-y-2">
@@ -241,30 +241,30 @@ const AnalysisPage = () => {
               <div className="w-10 h-10 bg-corndel-beige rounded-lg flex items-center justify-center mr-3">
                 <Lightbulb className="h-5 w-5 text-corndel-orange" />
               </div>
-              <h3 className="text-lg font-semibold text-corndel-blue">Task Summary</h3>
+              <h3 className="text-lg font-semibold text-indigo-900">Task Summary</h3>
             </div>
             
             <div className="text-gray-600 mb-4 max-h-48 overflow-y-auto">
-              <p className="mb-2">{answers[0]}</p>
+              <p className="mb-2">{answers["0"]}</p>
             </div>
             
             <div className="text-center mt-6">
               <button
                 onClick={() => navigate('/')}
-                className="inline-flex items-center justify-center px-4 py-2 border border-corndel-blue text-corndel-blue rounded-lg hover:bg-corndel-blue/5 transition-colors"
+                className="inline-flex items-center justify-center px-4 py-2 border border-indigo-900 text-indigo-900 rounded-lg hover:bg-indigo-100 transition-colors"
               >
-                Analyze Another Task
+                Analyse Another Task
               </button>
             </div>
           </motion.div>
           
           <motion.div 
-            className="bg-corndel-blue/5 p-6 rounded-lg"
+            className="bg-indigo-50 p-6 rounded-lg"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
           >
-            <h3 className="text-lg font-semibold text-corndel-blue mb-3">About the Classification</h3>
+            <h3 className="text-lg font-semibold text-indigo-900 mb-3">About the Classification</h3>
             
             <div className="text-sm text-gray-600">
               <p className="mb-2">
@@ -277,13 +277,13 @@ const AnalysisPage = () => {
                 <strong>AI Agent with Human Oversight:</strong> Complex tasks where AI can handle most cases but humans verify or handle exceptions.
               </p>
               <p className="mb-2">
-                <strong>Human-Driven with AI Assistance:</strong> Tasks where human judgment is primary but AI tools enhance productivity.
+                <strong>Human-Driven with AI Assistance:</strong> Tasks where human judgement is primary but AI tools enhance productivity.
               </p>
               <p className="mb-2">
                 <strong>Generative AI Task:</strong> Creative or analytical tasks where humans direct AI to generate content or insights.
               </p>
               <p>
-                <strong>Human-Only:</strong> Tasks requiring complex judgment, empathy, or accountability that can't be automated.
+                <strong>Human-Only:</strong> Tasks requiring complex judgement, empathy, or accountability that can't be automated.
               </p>
             </div>
           </motion.div>
