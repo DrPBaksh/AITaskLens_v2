@@ -41,7 +41,7 @@ Resources:
     Type: AWS::SSM::Parameter
     Properties:
       Name: '/AITaskLens/OpenAI/ApiKey'
-      Type: 'SecureString'
+      Type: 'String'
       Value: 'placeholder-update-after-deployment'
       Description: 'OpenAI API Key for AITaskLens'
 
@@ -58,6 +58,7 @@ Resources:
       Environment:
         Variables:
           SSM_PARAMETER_NAME: '/AITaskLens/OpenAI/ApiKey'
+          ALLOWED_ORIGIN: !Ref AllowedOrigin
       Code:
         ZipFile: |
           import os
