@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Send, FileText, AlertCircle, Info, CheckCircle, BrainCircuit } from 'lucide-react';
 import { QUESTIONS } from '../utils/mockData';
@@ -7,6 +7,13 @@ const QuestionForm = ({ onSubmit, initialAnswers = {}, loading = false }) => {
   const [answers, setAnswers] = useState(initialAnswers);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [error, setError] = useState(null);
+
+  // Update answers when initialAnswers change (for example pre-filling)
+  useEffect(() => {
+    if (Object.keys(initialAnswers).length > 0) {
+      setAnswers(initialAnswers);
+    }
+  }, [initialAnswers]);
 
   const handleTextChange = (e, index) => {
     setAnswers(prev => ({
@@ -52,7 +59,7 @@ const QuestionForm = ({ onSubmit, initialAnswers = {}, loading = false }) => {
       transition={{ delay: 0.2 }}
     >
       <div className="flex items-center justify-between border-b pb-4 mb-4">
-        <h2 className="text-xl font-semibold text-corndel-blue flex items-center">
+        <h2 className="text-xl font-semibold text-indigo-900 flex items-center">
           <BrainCircuit className="mr-2" size={20} />
           Task Analysis Form
         </h2>
@@ -82,7 +89,7 @@ const QuestionForm = ({ onSubmit, initialAnswers = {}, loading = false }) => {
             onClick={() => moveToQuestion(index)}
             className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-colors ${
               currentQuestion === index 
-                ? 'bg-corndel-blue text-white'
+                ? 'bg-indigo-900 text-white'
                 : isQuestionAnswered(index)
                   ? 'bg-green-100 text-green-800'
                   : 'bg-gray-100 text-gray-700'
@@ -96,7 +103,7 @@ const QuestionForm = ({ onSubmit, initialAnswers = {}, loading = false }) => {
       {/* Current question */}
       <div className="bg-gray-50 p-5 rounded-lg">
         <div className="mb-3 flex items-start">
-          <span className="w-7 h-7 bg-corndel-blue text-white rounded-full flex items-center justify-center mr-3 flex-shrink-0">
+          <span className="w-7 h-7 bg-indigo-900 text-white rounded-full flex items-center justify-center mr-3 flex-shrink-0">
             {currentQuestion + 1}
           </span>
           <h3 className="font-medium text-gray-800">
@@ -107,7 +114,7 @@ const QuestionForm = ({ onSubmit, initialAnswers = {}, loading = false }) => {
         <textarea
           value={answers[currentQuestion] || ''}
           onChange={(e) => handleTextChange(e, currentQuestion)}
-          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-corndel-blue focus:border-transparent outline-none transition mt-2"
+          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-corndel-purple focus:border-transparent outline-none transition mt-2"
           placeholder="Enter your answer here..."
           rows={6}
         />
@@ -133,7 +140,7 @@ const QuestionForm = ({ onSubmit, initialAnswers = {}, loading = false }) => {
             className={`px-4 py-2 rounded-lg transition ${
               currentQuestion === QUESTIONS.length - 1
                 ? 'border border-gray-200 text-gray-400 cursor-not-allowed'
-                : 'bg-gray-800 text-white hover:bg-gray-700'
+                : 'bg-indigo-900 text-white hover:bg-indigo-800'
             }`}
           >
             Next
@@ -143,9 +150,9 @@ const QuestionForm = ({ onSubmit, initialAnswers = {}, loading = false }) => {
       
       {/* Tips section */}
       <div className="bg-corndel-beige/30 p-4 rounded-lg flex items-start">
-        <Info className="w-5 h-5 text-corndel-blue mt-0.5 mr-3 flex-shrink-0" />
+        <Info className="w-5 h-5 text-indigo-900 mt-0.5 mr-3 flex-shrink-0" />
         <div>
-          <h4 className="font-medium text-corndel-blue mb-1">Tips for answering</h4>
+          <h4 className="font-medium text-indigo-900 mb-1">Tips for answering</h4>
           <p className="text-sm text-gray-700">
             Provide detailed information for the most accurate analysis. Focus on the specific aspects mentioned in the question, and include examples where relevant.
           </p>
@@ -158,7 +165,7 @@ const QuestionForm = ({ onSubmit, initialAnswers = {}, loading = false }) => {
           <div className="flex items-center">
             <div className="w-full sm:w-48 bg-gray-200 rounded-full h-2.5 mr-2">
               <div 
-                className="bg-corndel-blue h-2.5 rounded-full" 
+                className="bg-indigo-900 h-2.5 rounded-full" 
                 style={{ width: `${Object.keys(answers).filter(key => answers[key] && answers[key].trim() !== '').length / QUESTIONS.length * 100}%` }}
               ></div>
             </div>
@@ -176,18 +183,18 @@ const QuestionForm = ({ onSubmit, initialAnswers = {}, loading = false }) => {
           className={`w-full sm:w-auto font-bold py-3 px-6 rounded-lg transition-colors flex items-center justify-center gap-2 ${
             loading
               ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-              : 'bg-corndel-blue hover:bg-corndel-blue/90 text-white'
+              : 'bg-indigo-900 hover:bg-indigo-800 text-white'
           }`}
         >
           {loading ? (
             <>
               <div className="animate-spin h-5 w-5 border-2 border-white border-t-transparent rounded-full" />
-              <span>Analyzing...</span>
+              <span>Analysing...</span>
             </>
           ) : (
             <>
               <Send size={18} />
-              <span>Analyze Task</span>
+              <span>Analyse Task</span>
             </>
           )}
         </motion.button>
