@@ -14,7 +14,7 @@ const DisclaimerPage = () => {
         <div className="flex items-start gap-4">
           <div>
             <h1 className="text-4xl font-bold text-indigo-900 mb-2">
-              Legal Disclaimer
+              Disclaimer
             </h1>
             <h2 className="text-xl text-indigo-700">
               Important legal and data processing information
@@ -42,15 +42,7 @@ const DisclaimerPage = () => {
         </div>
 
         <div className="space-y-6 text-gray-700">
-          <div className="p-5 bg-gray-50 rounded-lg border border-gray-200">
-            <div className="flex items-center mb-3">
-              <Copyright className="h-5 w-5 text-indigo-700 mr-2" />
-              <p className="font-semibold text-indigo-900">Intellectual Property</p>
-            </div>
-            <p className="text-sm">
-              <span className="font-medium">AITaskLens</span> and all related intellectual property rights are owned exclusively by <span className="font-medium text-indigo-700">Peter Baksh</span>. All content, design, and functionality of this application are protected by copyright laws. Unauthorized use, reproduction, or distribution is strictly prohibited.
-            </p>
-          </div>
+
 
           <div className="p-5 bg-yellow-50 rounded-lg border border-yellow-200">
             <div className="flex items-center mb-3">
@@ -82,9 +74,24 @@ const DisclaimerPage = () => {
             </div>
             <p className="text-sm">
               AITaskLens <span className="font-medium text-green-700">does not permanently store</span> the information you submit. Your data is <span className="font-medium text-green-700">not used to retrain any OpenAI model</span> and is only processed for the purpose of providing you with task analysis results. This application adheres to data minimization principles.
+            
             </p>
           </div>
-        </div>
+        
+
+
+        <div className="p-5 bg-gray-50 rounded-lg border border-gray-200">
+            <div className="flex items-center mb-3">
+              <Copyright className="h-5 w-5 text-indigo-700 mr-2" />
+              <p className="font-semibold text-indigo-900">Intellectual Property</p>
+            </div>
+            <p className="text-sm">
+              <span className="font-medium">AITaskLens</span> and all related intellectual property rights are owned exclusively by <span className="font-medium text-indigo-700">Peter Baksh</span>. All content, design, and functionality of this application are protected by copyright laws. Unauthorized use, reproduction, or distribution is strictly prohibited.
+            </p>
+          </div>
+          </div>
+
+
       </motion.div>
       
       <div className="mt-8 text-center">
