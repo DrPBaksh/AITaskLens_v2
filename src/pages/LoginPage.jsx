@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { LogIn, Lock, AlertCircle, BrainCircuit } from 'lucide-react';
+import { LogIn, Lock } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 
 const LoginPage = () => {
@@ -27,83 +27,64 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-corndel-beige py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <motion.div 
-        className="max-w-md w-full space-y-8 bg-white p-10 rounded-xl shadow-xl"
+        className="max-w-md w-full bg-white p-8 rounded-lg shadow-md"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <div>
-          <div className="mx-auto bg-white rounded-2xl w-24 h-24 flex items-center justify-center">
-            <div className="h-16 w-16 bg-corndel-blue rounded-lg flex items-center justify-center text-white">
-              <BrainCircuit size={42} />
-            </div>
+        <div className="flex flex-col items-center mb-8">
+          <div className="w-20 h-20 bg-purple-600 rounded-full flex items-center justify-center mb-4">
+            <BrainCircuit size={36} className="text-white" />
           </div>
-          <h2 className="mt-6 text-center text-3xl font-bold text-corndel-blue">
+          <h2 className="text-2xl font-bold text-gray-800 text-center">
             AITaskLens
           </h2>
-          <p className="mt-2 text-center text-sm text-gray-600">
-            AI-powered task analysis and classification
-          </p>
         </div>
         
-        {error && (
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg flex items-start"
-          >
-            <AlertCircle className="mr-2 h-5 w-5 text-red-500 mt-0.5" />
-            <span>{error}</span>
-          </motion.div>
-        )}
-        
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-          <div className="rounded-md space-y-4">
-            <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">Password</label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Lock className="h-5 w-5 text-gray-400" />
-                </div>
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  autoComplete="current-password"
-                  required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="appearance-none rounded-md relative block w-full px-3 py-3 pl-10 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-corndel-blue focus:border-corndel-blue focus:z-10"
-                  placeholder="Enter password"
-                />
+        <form className="space-y-6" onSubmit={handleSubmit}>
+          <div>
+            <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">Password</label>
+            <div className="relative">
+              <input
+                id="password"
+                name="password"
+                type="password"
+                autoComplete="current-password"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="appearance-none rounded-md relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-purple-600 focus:border-purple-600 focus:z-10"
+                placeholder="Enter password"
+              />
+              <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                <Lock className="h-5 w-5 text-gray-400" />
               </div>
-              <p className="mt-2 text-xs text-gray-500">
-                Demo password: "password"
-              </p>
             </div>
+            {error && (
+              <p className="mt-2 text-sm text-red-600">
+                {error}
+              </p>
+            )}
+            <p className="mt-2 text-xs text-gray-500">
+              Enter the app password provided by your administrator
+            </p>
           </div>
 
           <div>
-            <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
+            <button
               type="submit"
               disabled={isLoading || !password.trim()}
               className={`group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white 
-              ${isLoading || !password.trim() ? 'bg-gray-400 cursor-not-allowed' : 'bg-corndel-blue hover:bg-corndel-blue/90'} 
-              focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-corndel-blue transition-colors`}
+              ${isLoading || !password.trim() ? 'bg-purple-400 cursor-not-allowed' : 'bg-purple-700 hover:bg-purple-800'} 
+              focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition-colors`}
             >
               <span className="absolute left-0 inset-y-0 flex items-center pl-3">
-                <LogIn className={`h-5 w-5 ${isLoading ? 'text-white/50' : 'text-corndel-blue/30'}`} />
+                <LogIn className="h-5 w-5 text-purple-200" />
               </span>
-              {isLoading ? 'Signing in...' : 'Sign in'}
-            </motion.button>
-          </div>
-          
-          <div className="mt-6 text-center text-xs text-gray-500">
-            <p>AITaskLens © 2025 - All rights reserved</p>
+              {isLoading ? 'Signing in...' : 'Log In'}
+            </button>
           </div>
         </form>
       </motion.div>
