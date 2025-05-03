@@ -92,7 +92,7 @@ const Layout = () => {
           
           {/* Copyright notice */}
           <div className="mt-4 text-center text-xs text-gray-400">
-            © AITaskLens 2025
+            © PeterBaksh 2025
           </div>
         </div>
       </aside>

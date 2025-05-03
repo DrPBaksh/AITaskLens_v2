@@ -72,9 +72,9 @@ const HomePage = () => {
         transition={{ delay: 0.1 }}
       >
         <div className="flex items-start gap-4">
-          <div className="bg-corndel-purple/10 p-3 rounded-lg">
+          {/* <div className="bg-corndel-purple/10 p-3 rounded-lg">
             <BrainCircuit size={32} className="text-corndel-purple" />
-          </div>
+          </div> */}
           <div>
             <h1 className="text-4xl font-bold text-indigo-900 mb-2">
               AITaskLens
