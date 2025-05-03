@@ -35,23 +35,25 @@ const LoginPage = () => {
         transition={{ duration: 0.5 }}
       >
         <div className="flex flex-col items-center mb-8">
-          <img 
-            src="/logo.png" 
-            alt="AITaskLens Logo"
-            className="w-16 h-16 mb-4"
-            onError={(e) => {
-              // Fallback if the logo image doesn't exist
-              e.target.onerror = null;
-              e.target.style.display = "none";
-              document.getElementById("fallback-logo").style.display = "flex";
-            }}
-          />
-          <div 
-            id="fallback-logo" 
-            className="w-16 h-16 bg-corndel-purple rounded-full flex items-center justify-center mb-4"
-            style={{ display: "none" }}
-          >
-            <span className="text-white text-2xl font-bold">AI</span>
+          <div className="w-20 h-20 flex items-center justify-center mb-4">
+            <img 
+              src="/logo.png" 
+              alt="AITaskLens Logo"
+              className="h-full w-full object-contain"
+              onError={(e) => {
+                // Fallback if the logo image doesn't exist
+                e.target.onerror = null;
+                e.target.style.display = "none";
+                document.getElementById("fallback-logo").style.display = "flex";
+              }}
+            />
+            <div 
+              id="fallback-logo" 
+              className="w-16 h-16 bg-corndel-purple rounded-lg flex items-center justify-center"
+              style={{ display: "none" }}
+            >
+              <span className="text-white text-2xl font-bold">AI</span>
+            </div>
           </div>
           <h2 className="text-2xl font-bold text-gray-800 text-center">
             AITaskLens
