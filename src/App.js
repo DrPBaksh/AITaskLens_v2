@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate, Outlet } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Layout from './components/Layout';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
@@ -22,7 +22,7 @@ const App = () => {
               <Route path="analysis/:id" element={<AnalysisPage />} />
             </Route>
           </Route>
-          <Route path="*" element={<Navigate to="/" replace />} />
+          <Route path="*" element={<Navigate to="/login" replace />} />
         </Routes>
       </AuthProvider>
     </Router>
@@ -31,25 +31,16 @@ const App = () => {
 
 // Protected route component
 const ProtectedRoute = () => {
-  const { isAuthenticated } = React.useContext(React.createContext({
-    isAuthenticated: false,
-    login: () => {},
-    logout: () => {},
-    error: null,
-    clearError: () => {}
-  }));
-
-  // Replace with the actual AuthContext when it's created
-  // const { isAuthenticated } = useAuth();
-
-  // For development only - comment this line out when auth is implemented
-  const devMode = true;
+  const isAuthenticated = localStorage.getItem('token');
   
-  if (!isAuthenticated && !devMode) {
+  if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
   }
   
   return <Outlet />;
 };
+
+// Add Outlet component
+const Outlet = ({ children }) => children;
 
 export default App;
