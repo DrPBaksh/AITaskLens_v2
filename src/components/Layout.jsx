@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Outlet, Link, useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Home, FileText, Menu, X, LogOut } from 'lucide-react';
+import { Home, FileText, Menu, X, LogOut, AlertTriangle } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 
 const Layout = () => {
@@ -23,6 +23,7 @@ const Layout = () => {
   const navItems = [
     { path: '/', icon: Home, label: 'Home' },
     { path: '/examples', icon: FileText, label: 'Examples' },
+    { path: '/disclaimer', icon: AlertTriangle, label: 'Disclaimer' },
   ];
 
   // Check if a nav item is active
