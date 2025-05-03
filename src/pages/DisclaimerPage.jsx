@@ -36,7 +36,7 @@ const DisclaimerPage = () => {
           <div>
             <h3 className="text-xl font-semibold text-indigo-900 mb-2">Official Disclaimer</h3>
             <p className="text-gray-600 mb-4">
-              Please review the following important information before using AITaskLens:
+              Please review the following important information before using AI Task Lens:
             </p>
           </div>
         </div>
@@ -50,7 +50,7 @@ const DisclaimerPage = () => {
               <p className="font-semibold text-amber-800">Limitation of Liability</p>
             </div>
             <p className="text-sm">
-              The analysis provided by AITaskLens is for informational purposes only and should not be considered as professional guidance or advice. <span className="font-medium text-amber-700">Peter Baksh does not claim any responsibility</span> for decisions or actions taken based on the information provided by this application. Use at your own risk.
+              The analysis provided by AI Task Lens is for informational purposes only and should not be considered as professional guidance or advice. <span className="font-medium text-amber-700">Peter Baksh does not claim any responsibility</span> for decisions or actions taken based on the information provided by this application. Use at your own risk.
             </p>
           </div>
 
@@ -61,7 +61,7 @@ const DisclaimerPage = () => {
             </div>
             <p className="text-sm">
               This application is <span className="font-medium text-blue-700">hosted within the United Kingdom</span>. However, please be aware that information you send to this application is <span className="font-medium text-blue-700">processed in the United States</span> via the OpenAI API. By using this application, you consent to the cross-border transfer of your data.
-              <a href="https://openai.com/policies/trust-center" target="_blank" rel="noopener noreferrer" className="text-indigo-900 hover:underline ml-1 block mt-2">
+              <a href="https://trust.openai.com/" target="_blank" rel="noopener noreferrer" className="text-indigo-900 hover:underline ml-1 block mt-2">
                 OpenAI Trust Portal →
               </a>
             </p>
@@ -73,7 +73,7 @@ const DisclaimerPage = () => {
               <p className="font-semibold text-green-800">Data Retention & Usage</p>
             </div>
             <p className="text-sm">
-              AITaskLens <span className="font-medium text-green-700">does not permanently store</span> the information you submit. Your data is <span className="font-medium text-green-700">not used to retrain any OpenAI model</span> and is only processed for the purpose of providing you with task analysis results. This application adheres to data minimization principles.
+              AI Task Lens <span className="font-medium text-green-700">does not permanently store</span> the information you submit. Your data is <span className="font-medium text-green-700">not used to retrain any OpenAI model</span> and is only processed for the purpose of providing you with task analysis results. This application adheres to data minimization principles.
             
             </p>
           </div>
@@ -86,7 +86,7 @@ const DisclaimerPage = () => {
               <p className="font-semibold text-indigo-900">Intellectual Property</p>
             </div>
             <p className="text-sm">
-              <span className="font-medium">AITaskLens</span> and all related intellectual property rights are owned exclusively by <span className="font-medium text-indigo-700">Peter Baksh</span>. All content, design, and functionality of this application are protected by copyright laws. Unauthorized use, reproduction, or distribution is strictly prohibited.
+              <span className="font-medium">AI Task Lens</span> and all related intellectual property rights are owned exclusively by <span className="font-medium text-indigo-700">Peter Baksh</span>. All content, design, and functionality of this application are protected by copyright laws. Unauthorized use, reproduction, or distribution is strictly prohibited.
             </p>
           </div>
           </div>
@@ -96,7 +96,7 @@ const DisclaimerPage = () => {
       
       <div className="mt-8 text-center">
         <p className="text-sm text-gray-500">
-          By continuing to use AITaskLens, you acknowledge and agree to these terms.
+          By continuing to use AI Task Lens, you acknowledge and agree to these terms.
         </p>
         <p className="text-sm text-gray-500 mt-2">
           <a href="/" className="text-indigo-900 hover:underline">Return to task analysis</a>

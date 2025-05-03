@@ -39,7 +39,7 @@ const Layout = () => {
           <div className="h-14 w-14 flex items-center justify-center">
             <img 
               src="/logo.png" 
-              alt="AITaskLens Logo" 
+              alt="AI Task Lens Logo" 
               className="h-full w-full object-contain"
               onError={(e) => {
                 // Fallback if image doesn't load
@@ -56,7 +56,7 @@ const Layout = () => {
             </div>
           </div>
           <h1 className="mt-2 text-base font-bold text-gray-800 text-center">
-            AITaskLens
+            AI Task Lens
           </h1>
         </div>
         <nav className="flex-1 px-3 py-4">
@@ -131,7 +131,7 @@ const Layout = () => {
               <div className="h-14 w-14 flex items-center justify-center">
                 <img 
                   src="/logo.png" 
-                  alt="AITaskLens Logo" 
+                  alt="AI Task Lens Logo" 
                   className="h-full w-full object-contain"
                   onError={(e) => {
                     // Fallback if image doesn't load
@@ -147,7 +147,7 @@ const Layout = () => {
                   <span className="text-lg font-bold">AI</span>
                 </div>
               </div>
-              <h1 className="mt-2 text-xl font-bold text-gray-800">AITaskLens</h1>
+              <h1 className="mt-2 text-xl font-bold text-gray-800">AI Task Lens</h1>
               <button 
                 onClick={toggleMenu}
                 className="absolute right-4 top-4 p-2 rounded-full hover:bg-gray-100"
@@ -194,7 +194,7 @@ const Layout = () => {
               
               {/* Copyright notice for mobile */}
               <div className="mt-6 text-center text-xs text-gray-400">
-                © AITaskLens 2025
+                © AI Task Lens 2025
               </div>
             </div>
           </motion.div>
@@ -209,7 +209,7 @@ const Layout = () => {
         
         {/* Footer copyright for main content area on mobile */}
         <div className="mt-12 text-center text-xs text-gray-400 md:hidden">
-          © AITaskLens 2025
+          © AI Task Lens 2025
         </div>
       </main>
     </div>

@@ -74,7 +74,7 @@ const HomePage = () => {
         <div className="flex items-start gap-4">
           <div>
             <h1 className="text-4xl font-bold text-indigo-900 mb-2">
-              AITaskLens
+              AI Task Lens
             </h1>
             <h2 className="text-xl text-indigo-700">
               Analyse and classify business tasks for optimal automation strategies
@@ -92,7 +92,7 @@ const HomePage = () => {
       >
         <h3 className="text-lg font-semibold text-indigo-900 mb-3">Why Task Analysis Matters</h3>
         <p className="text-gray-700 mb-4">
-          As AI capabilities rapidly evolve, understanding which tasks are suitable for automation and which still require human expertise becomes increasingly critical. AITaskLens helps you systematically evaluate each business task across multiple dimensions to determine the optimal balance between technology and human involvement.
+          As AI capabilities rapidly evolve, understanding which tasks are suitable for automation and which still require human expertise becomes increasingly critical. AI Task Lens helps you systematically evaluate each business task across multiple dimensions to determine the optimal balance between technology and human involvement.
         </p>
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
