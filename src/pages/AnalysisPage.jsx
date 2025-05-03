@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowLeft, CheckCircle2, Tool, AlertTriangle, Lightbulb, BrainCircuit, AlertCircle } from 'lucide-react';
+import { ArrowLeft, CheckCircle2, Wrench, AlertTriangle, Lightbulb, BrainCircuit, AlertCircle } from 'lucide-react';
 import { mockExamples, mockAnalysisResponse } from '../utils/mockData';
 
 const AnalysisPage = () => {
@@ -186,7 +186,7 @@ const AnalysisPage = () => {
             >
               <div className="flex items-center mb-4">
                 <div className="w-10 h-10 bg-corndel-blue/10 rounded-lg flex items-center justify-center mr-3">
-                  <Tool className="h-5 w-5 text-corndel-blue" />
+                  <Wrench className="h-5 w-5 text-corndel-blue" />
                 </div>
                 <h3 className="text-lg font-semibold text-corndel-blue">Recommended Tools</h3>
               </div>
