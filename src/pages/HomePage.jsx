@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { BrainCircuit, FileText, AlertCircle, CheckCircle } from 'lucide-react';
+import { FileText, AlertCircle, CheckCircle } from 'lucide-react';
 import QuestionForm from '../components/QuestionForm';
 import { mockAnalysisResponse } from '../utils/mockData';
 
@@ -72,9 +72,6 @@ const HomePage = () => {
         transition={{ delay: 0.1 }}
       >
         <div className="flex items-start gap-4">
-          <div className="bg-corndel-purple/10 p-3 rounded-lg">
-            <BrainCircuit size={32} className="text-corndel-purple" />
-          </div>
           <div>
             <h1 className="text-4xl font-bold text-indigo-900 mb-2">
               AITaskLens
