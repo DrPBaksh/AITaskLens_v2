@@ -36,7 +36,26 @@ const Layout = () => {
       {/* Sidebar for desktop - more compact */}
       <aside className="hidden md:flex flex-col w-64 bg-white shadow-xl z-10">
         <div className="p-4 border-b border-gray-100 flex flex-col items-center">
-          <h1 className="text-base font-bold text-gray-800 text-center">
+          <div className="h-14 w-14 flex items-center justify-center">
+            <img 
+              src="/logo.png" 
+              alt="AITaskLens Logo" 
+              className="h-full w-full object-contain"
+              onError={(e) => {
+                // Fallback if image doesn't load
+                e.target.style.display = "none";
+                document.getElementById("fallback-logo-desktop").style.display = "flex";
+              }}
+            />
+            <div 
+              id="fallback-logo-desktop" 
+              className="h-12 w-12 bg-indigo-800 rounded-lg flex items-center justify-center text-white"
+              style={{ display: "none" }}
+            >
+              <span className="text-lg font-bold">AI</span>
+            </div>
+          </div>
+          <h1 className="mt-2 text-base font-bold text-gray-800 text-center">
             AITaskLens
           </h1>
         </div>
@@ -109,6 +128,25 @@ const Layout = () => {
             onClick={e => e.stopPropagation()}
           >
             <div className="flex flex-col items-center mb-6">
+              <div className="h-14 w-14 flex items-center justify-center">
+                <img 
+                  src="/logo.png" 
+                  alt="AITaskLens Logo" 
+                  className="h-full w-full object-contain"
+                  onError={(e) => {
+                    // Fallback if image doesn't load
+                    e.target.style.display = "none";
+                    document.getElementById("fallback-logo-mobile").style.display = "flex";
+                  }}
+                />
+                <div 
+                  id="fallback-logo-mobile" 
+                  className="h-12 w-12 bg-indigo-800 rounded-lg flex items-center justify-center text-white"
+                  style={{ display: "none" }}
+                >
+                  <span className="text-lg font-bold">AI</span>
+                </div>
+              </div>
               <h1 className="mt-2 text-xl font-bold text-gray-800">AITaskLens</h1>
               <button 
                 onClick={toggleMenu}
