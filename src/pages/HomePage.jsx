@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { BrainCircuit, FileText, AlertCircle, CheckCircle } from 'lucide-react';
+import { BrainCircuit, FileText, AlertCircle, CheckCircle, Zap, BarChart3, UsersRound } from 'lucide-react';
 import QuestionForm from '../components/QuestionForm';
 import { mockAnalysisResponse } from '../utils/mockData';
-// import { api } from '../services/api';
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -72,9 +71,9 @@ const HomePage = () => {
         transition={{ delay: 0.1 }}
       >
         <div className="flex items-start gap-4">
-          {/* <div className="bg-corndel-purple/10 p-3 rounded-lg">
+          <div className="bg-corndel-purple/10 p-3 rounded-lg">
             <BrainCircuit size={32} className="text-corndel-purple" />
-          </div> */}
+          </div>
           <div>
             <h1 className="text-4xl font-bold text-indigo-900 mb-2">
               AITaskLens
@@ -82,6 +81,57 @@ const HomePage = () => {
             <h2 className="text-xl text-indigo-700">
               Analyse and classify business tasks for optimal automation strategies
             </h2>
+          </div>
+        </div>
+      </motion.div>
+
+      {/* Enhanced Description */}
+      <motion.div
+        className="bg-indigo-50 p-6 rounded-lg mb-8"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.15 }}
+      >
+        <h3 className="text-lg font-semibold text-indigo-900 mb-3">Why Task Analysis Matters</h3>
+        <p className="text-gray-700 mb-4">
+          As AI capabilities rapidly evolve, understanding which tasks are suitable for automation and which still require human expertise becomes increasingly critical. AITaskLens helps you systematically evaluate each business task across multiple dimensions to determine the optimal balance between technology and human involvement.
+        </p>
+        
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+          <div className="bg-white p-4 rounded-lg border border-indigo-100 flex flex-col">
+            <div className="flex items-center mb-2">
+              <div className="w-8 h-8 bg-indigo-100 rounded-lg flex items-center justify-center mr-2">
+                <Zap className="h-4 w-4 text-indigo-900" />
+              </div>
+              <h4 className="font-medium text-indigo-900">Evolving AI Landscape</h4>
+            </div>
+            <p className="text-sm text-gray-600">
+              The capabilities of AI are changing rapidly. What required human judgement yesterday might be effectively automated today. Regular reassessment is essential.
+            </p>
+          </div>
+          
+          <div className="bg-white p-4 rounded-lg border border-indigo-100 flex flex-col">
+            <div className="flex items-center mb-2">
+              <div className="w-8 h-8 bg-indigo-100 rounded-lg flex items-center justify-center mr-2">
+                <BarChart3 className="h-4 w-4 text-indigo-900" />
+              </div>
+              <h4 className="font-medium text-indigo-900">Structured Evaluation</h4>
+            </div>
+            <p className="text-sm text-gray-600">
+              Our seven-question framework helps break down tasks into their core components, revealing which aspects are suitable for automation and which require human oversight.
+            </p>
+          </div>
+          
+          <div className="bg-white p-4 rounded-lg border border-indigo-100 flex flex-col">
+            <div className="flex items-center mb-2">
+              <div className="w-8 h-8 bg-indigo-100 rounded-lg flex items-center justify-center mr-2">
+                <UsersRound className="h-4 w-4 text-indigo-900" />
+              </div>
+              <h4 className="font-medium text-indigo-900">Human-AI Partnership</h4>
+            </div>
+            <p className="text-sm text-gray-600">
+              The goal isn't to replace humans but to identify the optimal partnership between human expertise and AI capabilities, creating more effective and efficient processes.
+            </p>
           </div>
         </div>
       </motion.div>
