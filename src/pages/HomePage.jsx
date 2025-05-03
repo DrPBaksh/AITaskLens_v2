@@ -86,6 +86,8 @@ const HomePage = () => {
         </div>
       </motion.div>
 
+      
+
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         <motion.div 
           className="bg-white p-6 rounded-lg shadow-sm border border-gray-100"
