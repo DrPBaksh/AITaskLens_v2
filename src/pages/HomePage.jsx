@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { BrainCircuit, FileText, AlertCircle, CheckCircle, Zap, BarChart3, UsersRound } from 'lucide-react';
+import { BrainCircuit, FileText, AlertCircle, CheckCircle } from 'lucide-react';
 import QuestionForm from '../components/QuestionForm';
 import { mockAnalysisResponse } from '../utils/mockData';
 
@@ -14,6 +14,7 @@ const HomePage = () => {
   const [success, setSuccess] = useState(false);
   const [analysisId, setAnalysisId] = useState(null);
   const [initialAnswers, setInitialAnswers] = useState({});
+  const [activeTab, setActiveTab] = useState('form');
 
   // Check for example answers in location state
   useEffect(() => {
@@ -85,140 +86,129 @@ const HomePage = () => {
         </div>
       </motion.div>
 
-      {/* Enhanced Description */}
-      <motion.div
-        className="bg-indigo-50 p-6 rounded-lg mb-8"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.15 }}
-      >
-        <h3 className="text-lg font-semibold text-indigo-900 mb-3">Why Task Analysis Matters</h3>
-        <p className="text-gray-700 mb-4">
-          As AI capabilities rapidly evolve, understanding which tasks are suitable for automation and which still require human expertise becomes increasingly critical. AITaskLens helps you systematically evaluate each business task across multiple dimensions to determine the optimal balance between technology and human involvement.
-        </p>
-        
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
-          <div className="bg-white p-4 rounded-lg border border-indigo-100 flex flex-col">
-            <div className="flex items-center mb-2">
-              <div className="w-8 h-8 bg-indigo-100 rounded-lg flex items-center justify-center mr-2">
-                <Zap className="h-4 w-4 text-indigo-900" />
-              </div>
-              <h4 className="font-medium text-indigo-900">Evolving AI Landscape</h4>
-            </div>
-            <p className="text-sm text-gray-600">
-              The capabilities of AI are changing rapidly. What required human judgement yesterday might be effectively automated today. Regular reassessment is essential.
-            </p>
-          </div>
-          
-          <div className="bg-white p-4 rounded-lg border border-indigo-100 flex flex-col">
-            <div className="flex items-center mb-2">
-              <div className="w-8 h-8 bg-indigo-100 rounded-lg flex items-center justify-center mr-2">
-                <BarChart3 className="h-4 w-4 text-indigo-900" />
-              </div>
-              <h4 className="font-medium text-indigo-900">Structured Evaluation</h4>
-            </div>
-            <p className="text-sm text-gray-600">
-              Our seven-question framework helps break down tasks into their core components, revealing which aspects are suitable for automation and which require human oversight.
-            </p>
-          </div>
-          
-          <div className="bg-white p-4 rounded-lg border border-indigo-100 flex flex-col">
-            <div className="flex items-center mb-2">
-              <div className="w-8 h-8 bg-indigo-100 rounded-lg flex items-center justify-center mr-2">
-                <UsersRound className="h-4 w-4 text-indigo-900" />
-              </div>
-              <h4 className="font-medium text-indigo-900">Human-AI Partnership</h4>
-            </div>
-            <p className="text-sm text-gray-600">
-              The goal isn't to replace humans but to identify the optimal partnership between human expertise and AI capabilities, creating more effective and efficient processes.
-            </p>
-          </div>
-        </div>
-      </motion.div>
-
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <motion.div 
-          className="bg-white p-6 rounded-lg shadow-sm border border-gray-100"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
+      {/* Tab Navigation */}
+      <div className="flex border-b border-gray-200 mb-6">
+        <button
+          className={`py-2 px-4 font-medium text-sm ${activeTab === 'form' 
+            ? 'border-b-2 border-indigo-900 text-indigo-900' 
+            : 'text-gray-500 hover:text-indigo-900'}`}
+          onClick={() => setActiveTab('form')}
         >
-          <div className="w-12 h-12 bg-corndel-purple/10 rounded-lg flex items-center justify-center mb-4">
-            <BrainCircuit className="h-6 w-6 text-corndel-purple" />
-          </div>
-          <h3 className="text-lg font-semibold mb-2 text-indigo-900">Intelligent Analysis</h3>
-          <p className="text-gray-600">
-            Our AI model evaluates your task descriptions to recommend the optimal level of automation or human involvement.
-          </p>
-        </motion.div>
-        
-        <motion.div 
-          className="bg-white p-6 rounded-lg shadow-sm border border-gray-100"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
+          Task Analysis
+        </button>
+        <button
+          className={`py-2 px-4 font-medium text-sm ${activeTab === 'disclaimer' 
+            ? 'border-b-2 border-indigo-900 text-indigo-900' 
+            : 'text-gray-500 hover:text-indigo-900'}`}
+          onClick={() => setActiveTab('disclaimer')}
         >
-          <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-4">
-            <FileText className="h-6 w-6 text-orange-500" />
-          </div>
-          <h3 className="text-lg font-semibold mb-2 text-indigo-900">Practical Recommendations</h3>
-          <p className="text-gray-600">
-            Receive detailed recommendations for tools, implementation considerations, and potential challenges for each task.
-          </p>
-        </motion.div>
-        
-        <motion.div 
-          className="bg-white p-6 rounded-lg shadow-sm border border-gray-100"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
-        >
-          <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
-            <CheckCircle className="h-6 w-6 text-green-600" />
-          </div>
-          <h3 className="text-lg font-semibold mb-2 text-indigo-900">Strategic Insights</h3>
-          <p className="text-gray-600">
-            Understand where to invest in automation and where human expertise adds the most value for your business processes.
-          </p>
-        </motion.div>
+          Disclaimer
+        </button>
       </div>
 
-      {error && (
-        <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg flex items-start mb-6"
-        >
-          <AlertCircle className="mr-2 h-5 w-5 text-red-500 mt-0.5" />
-          <span>{error}</span>
-        </motion.div>
+      {/* Task Analysis Form Tab */}
+      {activeTab === 'form' && (
+        <>
+          {/* Enhanced Description */}
+          <motion.div
+            className="bg-indigo-50 p-6 rounded-lg mb-8"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.15 }}
+          >
+            <h3 className="text-lg font-semibold text-indigo-900 mb-3">Why Task Analysis Matters</h3>
+            <p className="text-gray-700 mb-4">
+              As AI capabilities rapidly evolve, understanding which tasks are suitable for automation and which still require human expertise becomes increasingly critical. AITaskLens helps you systematically evaluate each business task across multiple dimensions to determine the optimal balance between technology and human involvement.
+            </p>
+          </motion.div>
+
+          {error && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg flex items-start mb-6"
+            >
+              <AlertCircle className="mr-2 h-5 w-5 text-red-500 mt-0.5" />
+              <span>{error}</span>
+            </motion.div>
+          )}
+
+          {success ? (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="bg-green-50 border border-green-200 rounded-lg p-6 text-center my-8"
+            >
+              <div className="flex justify-center mb-4">
+                <div className="bg-green-100 p-3 rounded-full">
+                  <CheckCircle size={32} className="text-green-600" />
+                </div>
+              </div>
+              <h3 className="text-xl font-bold text-green-800 mb-2">Analysis Complete!</h3>
+              <p className="text-green-700">
+                Redirecting you to the detailed results...
+              </p>
+            </motion.div>
+          ) : (
+            <QuestionForm onSubmit={handleSubmit} loading={loading} initialAnswers={initialAnswers} />
+          )}
+          
+          <div className="mt-8 text-center">
+            <p className="text-sm text-gray-500">
+              Need inspiration? Check out our <a href="/examples" className="text-corndel-purple hover:underline">examples</a>.
+            </p>
+          </div>
+        </>
       )}
 
-      {success ? (
+      {/* Disclaimer Tab */}
+      {activeTab === 'disclaimer' && (
         <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          className="bg-green-50 border border-green-200 rounded-lg p-6 text-center my-8"
+          className="bg-white p-6 rounded-lg shadow-sm border border-gray-100"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
         >
-          <div className="flex justify-center mb-4">
-            <div className="bg-green-100 p-3 rounded-full">
-              <CheckCircle size={32} className="text-green-600" />
+          <div className="flex items-start mb-6">
+            <div className="w-10 h-10 bg-amber-100 rounded-lg flex items-center justify-center mr-3 flex-shrink-0">
+              <AlertCircle className="h-5 w-5 text-amber-600" />
+            </div>
+            <div>
+              <h3 className="text-xl font-semibold text-indigo-900 mb-2">The Boring Bits / Disclaimer</h3>
+              <p className="text-gray-600 mb-4">
+                Please read the following important information about AITaskLens:
+              </p>
             </div>
           </div>
-          <h3 className="text-xl font-bold text-green-800 mb-2">Analysis Complete!</h3>
-          <p className="text-green-700">
-            Redirecting you to the detailed results...
-          </p>
+
+          <div className="space-y-4 text-gray-700">
+            <div className="p-4 bg-gray-50 rounded-lg">
+              <p className="font-medium mb-1">This app is not guidance</p>
+              <p className="text-sm">The analysis provided by AITaskLens is for informational purposes only and should not be considered as professional guidance or advice.</p>
+            </div>
+
+            <div className="p-4 bg-gray-50 rounded-lg">
+              <p className="font-medium mb-1">Limitation of Liability</p>
+              <p className="text-sm">Peter Baksh copyright does not claim any responsibility for your actions based on the information provided by this application.</p>
+            </div>
+
+            <div className="p-4 bg-gray-50 rounded-lg">
+              <p className="font-medium mb-1">Data Processing</p>
+              <p className="text-sm">
+                This app is hosted within the UK. Information you send to this app is not stored, however it is processed in the USA via the OpenAI API. 
+                <a href="https://openai.com/policies/trust-center" target="_blank" rel="noopener noreferrer" className="text-indigo-900 hover:underline ml-1">
+                  Link to OpenAI Trust Portal
+                </a>.
+              </p>
+            </div>
+
+            <div className="p-4 bg-gray-50 rounded-lg">
+              <p className="font-medium mb-1">Data Usage</p>
+              <p className="text-sm">Your data is not used to retrain any OpenAI model.</p>
+            </div>
+          </div>
         </motion.div>
-      ) : (
-        <QuestionForm onSubmit={handleSubmit} loading={loading} initialAnswers={initialAnswers} />
       )}
-      
-      <div className="mt-8 text-center">
-        <p className="text-sm text-gray-500">
-          Need inspiration? Check out our <a href="/examples" className="text-corndel-purple hover:underline">examples</a>.
-        </p>
-      </div>
     </>
   );
 };
