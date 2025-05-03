@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Outlet, Link, useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Home, FileText, Search, Menu, X, LogOut, BrainCircuit } from 'lucide-react';
+import { Home, FileText, Menu, X, LogOut, BrainCircuit } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 
 const Layout = () => {
@@ -35,10 +35,10 @@ const Layout = () => {
       {/* Sidebar for desktop - more compact */}
       <aside className="hidden md:flex flex-col w-64 bg-white shadow-xl z-10">
         <div className="p-4 border-b border-gray-100 flex flex-col items-center">
-          <div className="h-12 w-12 bg-corndel-blue rounded-lg flex items-center justify-center text-white">
-            <BrainCircuit size={32} />
+          <div className="h-12 w-12 bg-corndel-purple rounded-lg flex items-center justify-center text-white">
+            <BrainCircuit size={28} />
           </div>
-          <h1 className="mt-2 text-xl font-bold text-corndel-blue text-center">
+          <h1 className="mt-2 text-base font-bold text-gray-800 text-center">
             AITaskLens
           </h1>
         </div>
@@ -50,8 +50,8 @@ const Layout = () => {
                   to={item.path}
                   className={`flex items-center px-4 py-2.5 rounded-lg transition-all duration-200 ${
                     isActive(item.path)
-                      ? 'bg-gradient-to-r from-corndel-blue to-corndel-blue/80 text-white shadow-md'
-                      : 'text-gray-600 hover:bg-corndel-blue/5 hover:text-corndel-blue hover:translate-x-1'
+                      ? 'bg-indigo-900 text-white shadow-md'
+                      : 'text-gray-600 hover:bg-gray-100 hover:text-indigo-900 hover:translate-x-1'
                   }`}
                 >
                   <item.icon className={`w-5 h-5 mr-3 ${isActive(item.path) ? 'text-white' : ''}`} />
@@ -87,7 +87,7 @@ const Layout = () => {
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           onClick={toggleMenu}
-          className="bg-corndel-blue text-white p-4 rounded-full shadow-lg"
+          className="bg-indigo-900 text-white p-4 rounded-full shadow-lg"
         >
           {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
         </motion.button>
@@ -111,10 +111,10 @@ const Layout = () => {
             onClick={e => e.stopPropagation()}
           >
             <div className="flex flex-col items-center mb-6">
-              <div className="h-12 w-12 bg-corndel-blue rounded-lg flex items-center justify-center text-white">
-                <BrainCircuit size={32} />
+              <div className="h-12 w-12 bg-corndel-purple rounded-lg flex items-center justify-center text-white">
+                <BrainCircuit size={28} />
               </div>
-              <h1 className="mt-2 text-xl font-bold text-corndel-blue">AITaskLens</h1>
+              <h1 className="mt-2 text-xl font-bold text-gray-800">AITaskLens</h1>
               <button 
                 onClick={toggleMenu}
                 className="absolute right-4 top-4 p-2 rounded-full hover:bg-gray-100"
@@ -131,8 +131,8 @@ const Layout = () => {
                       to={item.path}
                       className={`flex items-center px-4 py-3 rounded-lg transition-all duration-200 ${
                         isActive(item.path)
-                          ? 'bg-corndel-blue text-white shadow-md'
-                          : 'text-gray-600 hover:bg-corndel-blue/5 hover:text-corndel-blue'
+                          ? 'bg-indigo-900 text-white shadow-md'
+                          : 'text-gray-600 hover:bg-gray-100 hover:text-indigo-900'
                       }`}
                       onClick={toggleMenu}
                     >
