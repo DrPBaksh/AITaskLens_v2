@@ -1,0 +1,332 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'AITaskLens Backend Infrastructure - API Gateway, Lambda, and S3 resources'
+
+Parameters:
+  AllowedOrigin:
+    Type: String
+    Default: '*'
+    Description: The domain name for CORS (e.g., http://localhost:3000 or *)
+
+  StageName:
+    Type: String
+    Default: 'prod'
+    Description: The API Gateway Stage name
+
+Resources:
+  # IAM Role for Lambda function
+  LambdaExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: 'sts:AssumeRole'
+      ManagedPolicyArns:
+        - 'arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
+      Policies:
+        - PolicyName: SsmParameterStoreAccess
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 'ssm:GetParameter'
+                Resource: !Sub 'arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/AITaskLens/OpenAI/ApiKey'
+
+  # SSM Parameter for OpenAI API Key (will need to be set manually after deployment)
+  OpenAIApiKeyParameter:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Name: '/AITaskLens/OpenAI/ApiKey'
+      Type: 'SecureString'
+      Value: 'placeholder-update-after-deployment'
+      Description: 'OpenAI API Key for AITaskLens'
+
+  # Lambda Function
+  AITaskLensFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: AITaskLens-Analyzer
+      Handler: lambda_function.lambda_handler
+      Role: !GetAtt LambdaExecutionRole.Arn
+      Runtime: python3.11
+      MemorySize: 256
+      Timeout: 30
+      Environment:
+        Variables:
+          SSM_PARAMETER_NAME: '/AITaskLens/OpenAI/ApiKey'
+      Code:
+        ZipFile: |
+          import os
+          import json
+          import boto3
+          from openai import OpenAI
+          
+          # Initialize SSM client to get OpenAI API key from Parameter Store
+          ssm = boto3.client('ssm')
+          
+          def get_openai_api_key():
+              parameter_name = os.environ['SSM_PARAMETER_NAME']
+              response = ssm.get_parameter(
+                  Name=parameter_name,
+                  WithDecryption=True
+              )
+              return response['Parameter']['Value']
+          
+          # Initialize OpenAI client (lazy initialization to avoid cold start penalty)
+          openai_client = None
+          
+          def get_openai_client():
+              global openai_client
+              if openai_client is None:
+                  openai_client = OpenAI(api_key=get_openai_api_key())
+              return openai_client
+          
+          # JSON Schema for structured output
+          SCHEMA = {
+              "type": "object",
+              "properties": {
+                  "Classification": {"type": "string"},
+                  "Reasoning": {"type": "string"},
+                  "Tools": {"type": ["array", "string"], "items": {"type": "string"}},
+                  "PotentialConsiderations": {"type": ["array", "string"], "items": {"type": "string"}}
+              },
+              "required": ["Classification", "Reasoning", "Tools", "PotentialConsiderations"],
+              "additionalProperties": False
+          }
+          
+          def build_prompt(answers):
+              system_msg = """You are an AI reasoning assistant. Classify the task into one of the following categories exactly, and provide structured output adhering to the provided JSON schema.
+          
+          🧩 Refined Categories of Business Tasks:
+          
+          1. Fully Automated (Rules-Based)
+          2. Fully Automated (AI-Based)
+          3. AI Agent with Human Oversight (Human-in-the-Loop)
+          4. Human-Driven with AI Assistance
+          5. Generative AI Task (Human-Directed Prompting)
+          6. Human-Only
+          """
+              
+              user_content = "".join([f"\n{q}\n{a}" for q, a in answers.items()])
+              user_msg = (
+                  f"{user_content}\n\nRespond strictly with a JSON object matching the schema: "
+                  "Classification (string), Reasoning (string), Tools (array of strings or single string), "
+                  "PotentialConsiderations (array of strings or single string)."
+              )
+              
+              return [
+                  {"role": "system", "content": system_msg},
+                  {"role": "user", "content": user_msg}
+              ]
+          
+          def call_reasoning_model(messages):
+              client = get_openai_client()
+              
+              response = client.chat.completions.create(
+                  model="gpt-4o",  # Using gpt-4o as default model
+                  messages=messages,
+                  response_format={
+                      "type": "json_object",
+                  }
+              )
+              
+              content = response.choices[0].message.content
+              return json.loads(content)
+          
+          def lambda_handler(event, context):
+              # Set up CORS headers for all responses
+              headers = {
+                  'Access-Control-Allow-Origin': os.environ.get('ALLOWED_ORIGIN', '*'),
+                  'Access-Control-Allow-Headers': 'Content-Type',
+                  'Access-Control-Allow-Methods': 'OPTIONS,POST'
+              }
+              
+              # Handle preflight OPTIONS request
+              if event['httpMethod'] == 'OPTIONS':
+                  return {
+                      'statusCode': 200,
+                      'headers': headers,
+                      'body': json.dumps('Preflight request successful')
+                  }
+              
+              try:
+                  # Parse request body
+                  body = json.loads(event['body'])
+                  answers = body.get('answers', {})
+                  
+                  # Validate input
+                  if not answers:
+                      return {
+                          'statusCode': 400,
+                          'headers': headers,
+                          'body': json.dumps({'error': 'No answers provided'})
+                      }
+                  
+                  # Build prompt and call OpenAI
+                  messages = build_prompt(answers)
+                  result = call_reasoning_model(messages)
+                  
+                  # Create response with unique ID
+                  response = {
+                      'id': context.aws_request_id,
+                      **result
+                  }
+                  
+                  # Return successful response
+                  return {
+                      'statusCode': 200,
+                      'headers': headers,
+                      'body': json.dumps(response)
+                  }
+                  
+              except Exception as e:
+                  # Handle errors
+                  return {
+                      'statusCode': 500,
+                      'headers': headers,
+                      'body': json.dumps({'error': str(e)})
+                  }
+
+  # Lambda Layer for dependencies (OpenAI, etc.)
+  LambdaDependenciesLayer:
+    Type: AWS::Lambda::LayerVersion
+    Properties:
+      CompatibleRuntimes:
+        - python3.11
+      Content:
+        S3Bucket: !Ref DependenciesS3Bucket
+        S3Key: 'layers/python-dependencies.zip'
+      Description: Python dependencies for AITaskLens Lambda function
+      LayerName: AITaskLens-Dependencies
+
+  # S3 Bucket for Lambda Layer dependencies
+  DependenciesS3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub 'aitasklens-dependencies-${AWS::AccountId}'
+      VersioningConfiguration:
+        Status: Enabled
+
+  # API Gateway REST API
+  AITaskLensApi:
+    Type: AWS::ApiGateway::RestApi
+    Properties:
+      Name: AITaskLens-API
+      Description: API for AITaskLens task analysis
+      EndpointConfiguration:
+        Types:
+          - REGIONAL
+
+  # API Gateway Resource - /analyze
+  AnalyzeResource:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      RestApiId: !Ref AITaskLensApi
+      ParentId: !GetAtt AITaskLensApi.RootResourceId
+      PathPart: 'analyze'
+
+  # API Gateway Method - POST /analyze
+  AnalyzePostMethod:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      RestApiId: !Ref AITaskLensApi
+      ResourceId: !Ref AnalyzeResource
+      HttpMethod: POST
+      AuthorizationType: NONE
+      Integration:
+        Type: AWS_PROXY
+        IntegrationHttpMethod: POST
+        Uri: !Sub 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${AITaskLensFunction.Arn}/invocations'
+      MethodResponses:
+        - StatusCode: '200'
+          ResponseModels:
+            application/json: 'Empty'
+          ResponseParameters:
+            method.response.header.Access-Control-Allow-Origin: true
+        - StatusCode: '400'
+          ResponseModels:
+            application/json: 'Empty'
+          ResponseParameters:
+            method.response.header.Access-Control-Allow-Origin: true
+        - StatusCode: '500'
+          ResponseModels:
+            application/json: 'Empty'
+          ResponseParameters:
+            method.response.header.Access-Control-Allow-Origin: true
+
+  # API Gateway Method - OPTIONS /analyze (for CORS)
+  AnalyzeOptionsMethod:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      RestApiId: !Ref AITaskLensApi
+      ResourceId: !Ref AnalyzeResource
+      HttpMethod: OPTIONS
+      AuthorizationType: NONE
+      Integration:
+        Type: MOCK
+        IntegrationResponses:
+          - StatusCode: 200
+            ResponseParameters:
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+              method.response.header.Access-Control-Allow-Methods: "'GET,POST,OPTIONS'"
+              method.response.header.Access-Control-Allow-Origin: !Sub "'${AllowedOrigin}'"
+            ResponseTemplates:
+              application/json: '{}'
+        RequestTemplates:
+          application/json: '{"statusCode": 200}'
+      MethodResponses:
+        - StatusCode: 200
+          ResponseModels:
+            application/json: 'Empty'
+          ResponseParameters:
+            method.response.header.Access-Control-Allow-Headers: true
+            method.response.header.Access-Control-Allow-Methods: true
+            method.response.header.Access-Control-Allow-Origin: true
+
+  # Permission for API Gateway to invoke Lambda
+  LambdaInvokePermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: !Ref AITaskLensFunction
+      Principal: apigateway.amazonaws.com
+      SourceArn: !Sub 'arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${AITaskLensApi}/*/POST/analyze'
+
+  # API Gateway Deployment
+  ApiGatewayDeployment:
+    Type: AWS::ApiGateway::Deployment
+    DependsOn:
+      - AnalyzePostMethod
+      - AnalyzeOptionsMethod
+    Properties:
+      RestApiId: !Ref AITaskLensApi
+      StageName: !Ref StageName
+
+Outputs:
+  ApiEndpoint:
+    Description: 'API Gateway endpoint URL'
+    Value: !Sub 'https://${AITaskLensApi}.execute-api.${AWS::Region}.amazonaws.com/${StageName}/analyze'
+    Export:
+      Name: AITaskLensApiEndpoint
+
+  S3BucketName:
+    Description: 'S3 Bucket for Lambda Layer dependencies'
+    Value: !Ref DependenciesS3Bucket
+    Export:
+      Name: AITaskLensDependenciesBucket
+
+  LambdaFunctionName:
+    Description: 'Lambda Function Name'
+    Value: !Ref AITaskLensFunction
+    Export:
+      Name: AITaskLensFunctionName
+
+  LambdaLayerName:
+    Description: 'Lambda Layer Name'
+    Value: !Ref LambdaDependenciesLayer
+    Export:
+      Name: AITaskLensLayerName
