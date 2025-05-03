@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { BrainCircuit, FileText, AlertCircle, CheckCircle } from 'lucide-react';
+import { FileText, AlertCircle, CheckCircle } from 'lucide-react';
 import QuestionForm from '../components/QuestionForm';
 import { mockAnalysisResponse } from '../utils/mockData';
 // import { api } from '../services/api';
@@ -72,9 +72,6 @@ const HomePage = () => {
         transition={{ delay: 0.1 }}
       >
         <div className="flex items-start gap-4">
-          {/* <div className="bg-corndel-purple/10 p-3 rounded-lg">
-            <BrainCircuit size={32} className="text-corndel-purple" />
-          </div> */}
           <div>
             <h1 className="text-4xl font-bold text-indigo-900 mb-2">
               AITaskLens
@@ -86,54 +83,41 @@ const HomePage = () => {
         </div>
       </motion.div>
 
-      
-
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <motion.div 
-          className="bg-white p-6 rounded-lg shadow-sm border border-gray-100"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-        >
-          <div className="w-12 h-12 bg-corndel-purple/10 rounded-lg flex items-center justify-center mb-4">
-            <BrainCircuit className="h-6 w-6 text-corndel-purple" />
-          </div>
-          <h3 className="text-lg font-semibold mb-2 text-indigo-900">Intelligent Analysis</h3>
-          <p className="text-gray-600">
-            Our AI model evaluates your task descriptions to recommend the optimal level of automation or human involvement.
-          </p>
-        </motion.div>
+      {/* Why Task Analysis Matters */}
+      <motion.div
+        className="bg-indigo-50 p-6 rounded-lg mb-8"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.15 }}
+      >
+        <h3 className="text-lg font-semibold text-indigo-900 mb-3">Why Task Analysis Matters</h3>
+        <p className="text-gray-700 mb-4">
+          As AI capabilities rapidly evolve, understanding which tasks are suitable for automation and which still require human expertise becomes increasingly critical. AITaskLens helps you systematically evaluate each business task across multiple dimensions to determine the optimal balance between technology and human involvement.
+        </p>
         
-        <motion.div 
-          className="bg-white p-6 rounded-lg shadow-sm border border-gray-100"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
-        >
-          <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-4">
-            <FileText className="h-6 w-6 text-orange-500" />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+          <div className="bg-white p-4 rounded-lg border border-indigo-100 flex flex-col">
+            <h4 className="font-medium text-indigo-900 mb-2">Evolving AI Landscape</h4>
+            <p className="text-sm text-gray-600">
+              The capabilities of AI are changing rapidly. What required human judgement yesterday might be effectively automated today. Regular reassessment is essential.
+            </p>
           </div>
-          <h3 className="text-lg font-semibold mb-2 text-indigo-900">Practical Recommendations</h3>
-          <p className="text-gray-600">
-            Receive detailed recommendations for tools, implementation considerations, and potential challenges for each task.
-          </p>
-        </motion.div>
-        
-        <motion.div 
-          className="bg-white p-6 rounded-lg shadow-sm border border-gray-100"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
-        >
-          <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
-            <CheckCircle className="h-6 w-6 text-green-600" />
+          
+          <div className="bg-white p-4 rounded-lg border border-indigo-100 flex flex-col">
+            <h4 className="font-medium text-indigo-900 mb-2">Structured Evaluation</h4>
+            <p className="text-sm text-gray-600">
+              Our seven-question framework helps break down tasks into their core components, revealing which aspects are suitable for automation and which require human oversight.
+            </p>
           </div>
-          <h3 className="text-lg font-semibold mb-2 text-indigo-900">Strategic Insights</h3>
-          <p className="text-gray-600">
-            Understand where to invest in automation and where human expertise adds the most value for your business processes.
-          </p>
-        </motion.div>
-      </div>
+          
+          <div className="bg-white p-4 rounded-lg border border-indigo-100 flex flex-col">
+            <h4 className="font-medium text-indigo-900 mb-2">Human-AI Partnership</h4>
+            <p className="text-sm text-gray-600">
+              The goal isn't to replace humans but to identify the optimal partnership between human expertise and AI capabilities, creating more effective and efficient processes.
+            </p>
+          </div>
+        </div>
+      </motion.div>
 
       {error && (
         <motion.div
