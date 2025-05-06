@@ -1,7 +1,8 @@
 import axios from 'axios';
 
 // Define API URL - will be set from environment variables in production
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001';
+// Update this with your actual API Gateway URL
+const API_URL = process.env.REACT_APP_API_URL || 'https://h3xw2v8987.execute-api.eu-west-2.amazonaws.com/prod';
 
 // Create axios instance with default config
 const instance = axios.create({
@@ -23,6 +24,34 @@ instance.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
+// Helper function to extract JSON from the error message if possible
+const extractJsonFromErrorMessage = (errorMessage) => {
+  try {
+    // Check for JSON pattern with backticks and language identifier
+    const jsonRegex = /```(?:json)?\s*([\s\S]*?)```/;
+    const match = errorMessage.match(jsonRegex);
+    
+    if (match && match[1]) {
+      const jsonContent = match[1].trim();
+      // Parse the extracted JSON
+      const jsonData = JSON.parse(jsonContent);
+      
+      // Add unique ID if not present
+      return {
+        success: true,
+        result: {
+          ...jsonData,
+          id: jsonData.id || `analysis-${Date.now()}` 
+        }
+      };
+    }
+    return null;
+  } catch (e) {
+    console.error('Failed to extract JSON from error message:', e);
+    return null;
+  }
+};
+
 // API functions
 export const api = {
   // Auth
@@ -36,12 +65,27 @@ export const api = {
   },
   
   // Task Analysis
-  analyzeTask: async (answers) => {
+  analyzeTask: async (data) => {
     try {
-      const response = await instance.post('/analyze', { answers });
+      const response = await instance.post('/analyze', data);
       return response.data;
     } catch (error) {
-      throw new Error(error.response?.data?.message || 'Analysis failed');
+      console.log('Analysis error:', error);
+      
+      // Check response data for error with JSON content in the message
+      if (error.response?.data?.message && 
+          error.response.data.message.includes('Failed to parse JSON response:')) {
+        
+        // Try to extract JSON from the error message
+        const extractedData = extractJsonFromErrorMessage(error.response.data.message);
+        if (extractedData) {
+          console.log('Successfully extracted data from error message', extractedData);
+          return extractedData;
+        }
+      }
+      
+      // If extraction failed or it's a different error, throw
+      throw new Error(error.response?.data?.message || error.message || 'Analysis failed');
     }
   },
   
@@ -55,3 +99,5 @@ export const api = {
     }
   }
 };
+
+export default api;

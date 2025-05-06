@@ -3,8 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { FileText, AlertCircle, CheckCircle } from 'lucide-react';
 import QuestionForm from '../components/QuestionForm';
-import { mockAnalysisResponse } from '../utils/mockData';
-// import { api } from '../services/api';
+import { api } from '../services/api';
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -30,30 +29,26 @@ const HomePage = () => {
     setError(null);
     
     try {
-      // In a real implementation, this would call the API
-      // const response = await api.analyzeTask(answers);
+      // Call the API to analyze the task
+      const response = await api.analyzeTask({ answers });
       
-      // For now, we'll use mock data and simulate an API call
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      // Mock response
-      const response = {
-        id: 'analysis-' + Date.now(),
-        ...mockAnalysisResponse
-      };
-      
-      setAnalysisId(response.id);
-      setSuccess(true);
-      
-      // Navigate to the analysis page after a short delay
-      setTimeout(() => {
-        navigate(`/analysis/${response.id}`, { 
-          state: { 
-            analysis: response,
-            answers
-          } 
-        });
-      }, 1500);
+      if (response.success && response.result) {
+        const result = response.result;
+        setAnalysisId(result.id);
+        setSuccess(true);
+        
+        // Navigate to the analysis page after a short delay
+        setTimeout(() => {
+          navigate(`/analysis/${result.id}`, { 
+            state: { 
+              analysis: result,
+              answers
+            } 
+          });
+        }, 1500);
+      } else {
+        throw new Error(response.message || 'Analysis failed with no result');
+      }
       
     } catch (err) {
       console.error('Analysis error:', err);
