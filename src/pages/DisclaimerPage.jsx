@@ -60,7 +60,7 @@ const DisclaimerPage = () => {
               <p className="font-semibold text-blue-800">Data Processing</p>
             </div>
             <p className="text-sm">
-              This application is <span className="font-medium text-blue-700">hosted within the United Kingdom</span>. However, please be aware that information you send to this application is <span className="font-medium text-blue-700">processed in the United States</span> via the OpenAI API. By using this application, you consent to the cross-border transfer of your data.
+              This application is <span className="font-medium text-blue-700">hosted within the United Kingdom</span>. However, please be aware that information you send to this application is <span className="font-medium text-blue-700">processed in the United States</span> via the OpenAI API for use with an AI model. Open AI offers a DPA that aligns with article 28 of GDPR; this agreement outlines OpenAI's role as a data processor, ensuring that it processes personal data on behalf of the customer and in accordance with their instructions.  By using this application, you consent to the cross-border transfer of your data.
               <a href="https://trust.openai.com/" target="_blank" rel="noopener noreferrer" className="text-indigo-900 hover:underline ml-1 block mt-2">
                 OpenAI Trust Portal →
               </a>
@@ -73,7 +73,11 @@ const DisclaimerPage = () => {
               <p className="font-semibold text-green-800">Data Retention & Usage</p>
             </div>
             <p className="text-sm">
-              AI Task Lens <span className="font-medium text-green-700">does not permanently store</span> the information you submit. Your data is <span className="font-medium text-green-700">not used to retrain any OpenAI model</span> and is only processed for the purpose of providing you with task analysis results. This application adheres to data minimization principles.
+              AI Task Lens <span className="font-medium text-green-700">does not permanently store</span> the information you submit. Your data is <span className="font-medium text-green-700">not used to retrain any OpenAI model</span> and is only processed for the purpose of providing you with task analysis results as explained here on the OpenAI trust portal:
+              <a href="https://trust.openai.com/" target="_blank" rel="noopener noreferrer" className="text-indigo-900 hover:underline ml-1 block mt-2">
+                OpenAI Trust Portal →
+              </a>
+               This application adheres to data minimisation principles.
             
             </p>
           </div>
@@ -86,7 +90,7 @@ const DisclaimerPage = () => {
               <p className="font-semibold text-indigo-900">Intellectual Property</p>
             </div>
             <p className="text-sm">
-              <span className="font-medium">AI Task Lens</span> and all related intellectual property rights are owned exclusively by <span className="font-medium text-indigo-700">Peter Baksh</span>. All content, design, and functionality of this application are protected by copyright laws. Unauthorized use, reproduction, or distribution is strictly prohibited.
+              <span className="font-medium">AI Task Lens</span> and all related intellectual property rights are owned exclusively by <span className="font-medium text-indigo-700">Peter Baksh</span>. All content, design, and functionality of this application are protected by copyright laws. Unauthorised use, reproduction, or distribution is strictly prohibited.
             </p>
           </div>
           </div>
